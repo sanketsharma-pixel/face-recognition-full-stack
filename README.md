@@ -1,68 +1,85 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Face Recognition Full Stack
 
-## Available Scripts
+Simple face recognition demo (React frontend + Express/Postgres backend). This README explains how to install, run, and test the project so everyone can run it on their machine.
 
-In the project directory, you can run:
+## Prerequisites
 
-### `npm start`
+- Node.js (v12+) and npm
+- PostgreSQL (for the backend)
+- (Optional) Clarifai API key if you want the live Clarifai predictions (the tests mock Clarifai)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Repository layout (important files)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- [README.md](README.md)
+- [package.json](package.json) — frontend package configuration
+- [src/App.js](src/App.js) — main React app (contains [`calculateFaceLocation`](src/App.js) and [`onButtonSubmit`](src/App.js))
+- [src/App.test.js](src/App.test.js) — test suite
+- [face-api/server.js](face-api/server.js) — backend server entry
+- [face-api/package.json](face-api/package.json) — backend package configuration
+- [face-api/controllers/image.js](face-api/controllers/image.js) — [`handleImage`](face-api/controllers/image.js)
+- [face-api/controllers/register.js](face-api/controllers/register.js) — [`handleRegister`](face-api/controllers/register.js)
+- [face-api/controllers/signin.js](face-api/controllers/signin.js) — [`handleSignin`](face-api/controllers/signin.js)
 
-### `npm test`
+## Setup — install dependencies
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+From project root:
 
-### `npm run build`
+1. Install frontend dependencies:
+   ```sh
+   npm install
+   ```
+2. Install backend dependencies:
+   ```sh
+   cd face-api
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup — environment variables
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+1. Create a PostgreSQL database and user for the project.
+2. Copy `.env.example` to `.env` in the `face-api` folder and update with your database credentials.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running the project
 
-### `npm run eject`
+1. Start the PostgreSQL service.
+2. Run database migrations (in the `face-api` folder):
+   ```sh
+   npm run migrate
+   ```
+3. Seed the database (in the `face-api` folder):
+   ```sh
+   npm run seed
+   ```
+4. Start the backend server (in the `face-api` folder):
+   ```sh
+   npm start
+   ```
+5. In a new terminal, start the React app:
+   ```sh
+   npm start
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Running tests
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Frontend tests:
+   ```sh
+   npm test
+   ```
+2. Backend tests (in the `face-api` folder):
+   ```sh
+   npm test
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Troubleshooting
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- If you encounter issues, ensure that all services (Node, PostgreSQL) are running and that environment variables are correctly set.
+- Check the browser console and terminal for error messages.
+- For database issues, ensure the correct database is selected in your PostgreSQL client.
 
-## Learn More
+## Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For deploying the app, you can use services like Heroku, AWS, or DigitalOcean. Ensure that you configure environment variables and database connections according to the hosting provider's guidelines.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
