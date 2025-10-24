@@ -42,10 +42,10 @@ beforeEach(() => {
       });
     }
     if (url.includes('/image')) {
-      return Promise.resolve({
-        json: () => Promise.resolve({ entries: 1 }),
-      });
-    }
+        return Promise.resolve({
+          json: () => Promise.resolve({ entries: 1 }),
+        });      
+      }
     return Promise.resolve({ json: () => Promise.resolve({}) });
   });
 });
