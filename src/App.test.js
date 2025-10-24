@@ -2,35 +2,32 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from './App';
 
-// Mock the Particles component as it causes issues in the test environment.
 jest.mock('react-particles-js', () => () => <div data-testid="particles-mock" />);
 
-// Mock the Clarifai library
 jest.mock('clarifai', () => ({
-    App: jest.fn(() => ({
-      models: {
-        predict: jest.fn(() => Promise.resolve({
-          outputs: [{
-            data: {
-              regions: [{
-                region_info: {
-                  bounding_box: {
-                    top_row: 0.1,
-                    left_col: 0.2,
-                    right_col: 0.3,
-                    bottom_row: 0.4
-                  }
+  App: jest.fn(() => ({
+    models: {
+      predict: jest.fn(() => Promise.resolve({
+        outputs: [{
+          data: {
+            regions: [{
+              region_info: {
+                bounding_box: {
+                  top_row: 0.1,
+                  left_col: 0.2,
+                  right_col: 0.3,
+                  bottom_row: 0.4
                 }
-              }]
-            }
-          }]
-        }))
-      }
-    })),
-    FACE_DETECT_MODEL: 'face-detect-model'
-  }));
+              }
+            }]
+          }
+        }]
+      }))
+    }
+  })),
+  FACE_DETECT_MODEL: 'face-detect-model'
+}));
 
-// Mock the global fetch function before each test.
 beforeEach(() => {
   global.fetch = jest.fn((url) => {
     const user = { id: '123', name: 'Test User', email: 'test@example.com', entries: 0, joined: new Date() };
@@ -40,9 +37,9 @@ beforeEach(() => {
       });
     }
     if (url.includes('/register')) {
-        return Promise.resolve({
-          json: () => Promise.resolve(user),
-        });
+      return Promise.resolve({
+        json: () => Promise.resolve(user),
+      });
     }
     if (url.includes('/image')) {
         return Promise.resolve({
@@ -64,7 +61,7 @@ describe('App component routing and user flow', () => {
     const registerLink = screen.getByText('Register', { selector: 'p.f6' });
     fireEvent.click(registerLink);
     await waitFor(() => {
-        expect(screen.getByRole('heading', { name: /register/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /register/i })).toBeInTheDocument();
     });
   });
 
@@ -94,42 +91,41 @@ describe('App component routing and user flow', () => {
 });
 
 describe('calculateFaceLocation', () => {
-    it('should calculate the face location correctly', () => {
-      const appInstance = new App();
-      const mockData = {
-        outputs: [
-          {
-            data: {
-              regions: [
-                {
-                  region_info: {
-                    bounding_box: {
-                      top_row: 0.1,
-                      left_col: 0.2,
-                      right_col: 0.3,
-                      bottom_row: 0.4,
-                    },
+  it('should calculate the face location correctly', () => {
+    const appInstance = new App();
+    const mockData = {
+      outputs: [
+        {
+          data: {
+            regions: [
+              {
+                region_info: {
+                  bounding_box: {
+                    top_row: 0.1,
+                    left_col: 0.2,
+                    right_col: 0.3,
+                    bottom_row: 0.4,
                   },
                 },
-              ],
-            },
+              },
+            ],
           },
-        ],
-      };
+        },
+      ],
+    };
 
-      // Mock the document.getElementById call
-      global.document.getElementById = jest.fn(() => ({
-        width: 500,
-        height: 300,
-      }));
+    global.document.getElementById = jest.fn(() => ({
+      width: 500,
+      height: 300,
+    }));
 
-      const result = appInstance.calculateFaceLocation(mockData);
+    const result = appInstance.calculateFaceLocation(mockData);
 
-      expect(result).toEqual({
-        leftCol: 100,
-        topRow: 30,
-        rightCol: 350,
-        bottomRow: 180,
-      });
+    expect(result).toEqual({
+      leftCol: 100,
+      topRow: 30,
+      rightCol: 350,
+      bottomRow: 180,
     });
   });
+});
