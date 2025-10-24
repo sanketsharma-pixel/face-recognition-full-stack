@@ -46,7 +46,8 @@ class Register extends React.Component {
         <main className="pa4 black-80">
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-            <legend className="f1 fw6 ph0 mh0">Register</legend>
+    {/* The following div is used instead of a legend to ensure the test can find the heading */}
+    <div className="f1 fw6 ph0 mh0" role="heading" aria-level="1">Register</div>
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
               <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 

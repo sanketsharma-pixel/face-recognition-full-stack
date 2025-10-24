@@ -128,4 +128,27 @@ describe('calculateFaceLocation', () => {
       bottomRow: 180,
     });
   });
+
+  it('should call the API and update state on picture submission', async () => {
+    render(<App />);
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password' } });
+    fireEvent.click(screen.getByDisplayValue(/sign in/i));
+
+    await waitFor(() => {
+      expect(screen.getByText(/sign out/i)).toBeInTheDocument();
+    });
+
+    const inputElement = screen.getByRole('textbox');
+    fireEvent.change(inputElement, { target: { value: 'https://example.com/image.jpg' } });
+
+    const submitButton = screen.getByRole('button', { name: /detect/i });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('http://localhost:3001/image', expect.any(Object));
+      expect(screen.getByText(/Test User, your current rank is/i)).toBeInTheDocument();
+    });
+  });
 });

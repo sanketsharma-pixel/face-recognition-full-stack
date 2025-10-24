@@ -42,7 +42,8 @@ class Signin extends React.Component {
       <main className="pa4 black-80">
         <div className="measure">
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-            <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+  {/* The following div is used instead of a legend to ensure the test can find the heading */}
+  <div className="f1 fw6 ph0 mh0" role="heading" aria-level="1">Sign In</div>
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
               <input 
