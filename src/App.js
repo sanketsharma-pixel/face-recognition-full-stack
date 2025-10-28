@@ -99,8 +99,13 @@ class App extends React.Component {
       })
         })
         .then(response => response.json())
-        .then(count => {
-          this.setState(Object.assign(this.state.user, {entries: count}))
+        .then(data => {
+          this.setState(prevState => ({
+            user: {
+              ...prevState.user,
+              entries: data.entries
+            }
+          }))
         })
       }
       this.displayFaceBox(this.calculateFaceLocation(response))})
@@ -125,10 +130,10 @@ render(){
       <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
       { this.state.route === 'home'
       ? <div>
-      <Logo/>
-      <Rank name={this.state.user.name} entries={this.state.user.entries}/>
-      <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-      <FaceRecognition box = {this.state.box} imageUrl={this.state.imageUrl}/>
+      <Logo data-testid="logo" />
+      <Rank name={this.state.user.name} entries={this.state.user.entries} data-testid="rank" />
+      <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} data-testid="image-link-form" />
+      <FaceRecognition box = {this.state.box} imageUrl={this.state.imageUrl} data-testid="face-recognition" />
       </div> 
       :(
         this.state.route === 'signin'

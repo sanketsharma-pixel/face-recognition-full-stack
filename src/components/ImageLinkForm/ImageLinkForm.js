@@ -1,8 +1,8 @@
 import React from 'react';
 import './ImageFormLink.css';
-const ImageLinkForm = ( {onInputChange, onButtonSubmit}) => {
+const ImageLinkForm = ( {onInputChange, onButtonSubmit, 'data-testid': dataTestId}) => {
     return (
-        <div>
+        <div data-testid={dataTestId}>
             <p className='f3'>
                 {'Unleash The Power of Machine Learning'}
             </p>
