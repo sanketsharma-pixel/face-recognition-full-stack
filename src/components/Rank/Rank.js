@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Rank = ({ name, entries, 'data-testid': dataTestId }) => {
+const Rank = ({ name, entries }) => {
     return (
-        <div data-testid={dataTestId}>
+        <div>
             <div className='white f3'>
                 {`${name}, your current rank is...`}
             </div>
