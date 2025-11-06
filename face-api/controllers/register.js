@@ -14,13 +14,14 @@ const handleRegister = (req, res, database, bcrypt) => {
         .returning('email')
         .then(loginEmail => {
             return trx('users')
-                .returning('*')
                 .insert({
                     name: name,
                     email: loginEmail[0],
                     joined: new Date()
+                }).then(() => {
+                    return trx('users').where('email', loginEmail[0]).first();
                 }).then(user => {
-                    res.json(user[0]);
+                    res.json(user);
             })
         })
         .then(trx.commit)
